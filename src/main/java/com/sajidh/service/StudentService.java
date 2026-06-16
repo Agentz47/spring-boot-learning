@@ -31,5 +31,20 @@ public class StudentService {
 
     }
 
+    public Student addStudent(
+            Student student
+    ) {
+        if (student.getAge() <= 16) {
+
+            throw new RuntimeException(
+                    "Age Must Be Over 16!"
+            );
+
+        }
+
+        return repository.save(student);
+    }
+
+
 
 }
