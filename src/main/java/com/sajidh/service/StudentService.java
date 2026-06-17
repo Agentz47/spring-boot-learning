@@ -1,5 +1,6 @@
 package com.sajidh.service;
 
+import com.sajidh.exception.StudentNotFoundException;
 import com.sajidh.model.Student;
 import com.sajidh.repository.StudentRepository;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,11 @@ public class StudentService {
     ) {
 
         return repository.findById(id)
-                .orElse(null);
+                .orElseThrow(
+                        () -> new StudentNotFoundException(
+                                "Student not found with ID: " + id
+                        )
+                );
 
     }
 

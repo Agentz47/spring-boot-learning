@@ -3,6 +3,7 @@ package com.sajidh.controller;
 import com.sajidh.model.Student;
 import com.sajidh.service.StudentService;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,11 +38,14 @@ public class StudentController {
     }
 
     @GetMapping("/students/{id}")
-    public Student getStudentById(
+    public ResponseEntity<Student> getStudentById(
             @PathVariable int id
     ) {
 
-        return service.getStudentById(id);
+
+        return ResponseEntity.ok(
+                service.getStudentById(id)
+        );
     }
 
     @DeleteMapping("/students/{id}")

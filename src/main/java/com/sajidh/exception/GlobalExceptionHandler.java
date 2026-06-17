@@ -39,4 +39,20 @@ public class GlobalExceptionHandler {
         ) {
         };
     }
+
+    @ExceptionHandler(
+            StudentNotFoundException.class
+    )
+    @ResponseStatus(
+            HttpStatus.NOT_FOUND
+    )
+    public ErrorResponse handleStudentNotFound(
+            StudentNotFoundException ex
+    ) {
+
+        return new ErrorResponse(
+                ex.getMessage(),
+                List.of()
+        );
+    }
 }
