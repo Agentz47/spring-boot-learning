@@ -2,6 +2,7 @@ package com.sajidh.controller;
 
 import com.sajidh.model.Student;
 import com.sajidh.service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,6 +29,7 @@ public class StudentController {
 
     @PostMapping("/students")
     public Student student(
+            @Valid
             @RequestBody Student student
     ) {
 

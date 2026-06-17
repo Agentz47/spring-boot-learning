@@ -3,6 +3,7 @@ package com.sajidh.service;
 import com.sajidh.model.Student;
 import com.sajidh.repository.StudentRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
 
@@ -34,13 +35,6 @@ public class StudentService {
     public Student addStudent(
             Student student
     ) {
-        if (student.getAge() <= 16) {
-
-            throw new RuntimeException(
-                    "Age Must Be Over 16!"
-            );
-
-        }
 
         return repository.save(student);
     }
@@ -51,6 +45,7 @@ public class StudentService {
 
         repository.deleteById(id);
     }
+
 
     public Student updateStudent(
             int id,
