@@ -1,5 +1,6 @@
 package com.sajidh.controller;
 
+import com.sajidh.dto.StudentResponseDTO;
 import com.sajidh.model.Student;
 import com.sajidh.service.StudentService;
 import jakarta.validation.Valid;
@@ -29,7 +30,7 @@ public class StudentController {
     }
 
     @PostMapping("/students")
-    public Student student(
+    public Student Student(
             @Valid
             @RequestBody Student student
     ) {
@@ -38,14 +39,23 @@ public class StudentController {
     }
 
     @GetMapping("/students/{id}")
-    public ResponseEntity<Student> getStudentById(
+    public ResponseEntity<StudentResponseDTO> getStudentById(
             @PathVariable int id
     ) {
 
+        Student student =
+                service.getStudentById(id);
 
-        return ResponseEntity.ok(
-                service.getStudentById(id)
-        );
+        StudentResponseDTO dto =
+                new StudentResponseDTO(
+                        student.getId(),
+                        student.getName(),
+                        student.getAge(),
+                        student.getCourse()
+                );
+
+
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/students/{id}")
