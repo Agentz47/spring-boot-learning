@@ -45,6 +45,44 @@ public class StudentService {
         return repository.save(student);
     }
 
+    public void deleteStudent(
+            int id
+    ) {
 
+        repository.deleteById(id);
+    }
+
+    public Student updateStudent(
+            int id,
+            Student updateStudent
+    ) {
+
+        Student existingStudent =
+                repository.findById(id)
+                        .orElse(null);
+
+        if (existingStudent == null) {
+
+            return null;
+
+        }
+
+        existingStudent.setName(
+                updateStudent.getName()
+        );
+
+        existingStudent.setAge(
+                updateStudent.getAge()
+        );
+
+        existingStudent.setCourse(
+                updateStudent.getCourse()
+        );
+
+        return repository.save(
+                existingStudent
+        );
+
+    }
 
 }
