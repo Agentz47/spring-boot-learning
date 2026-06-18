@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class Department {
     )
     private int id;
 
+    @NotBlank(message = "Department name cannot be empty")
     private String name;
 
     @OneToMany(mappedBy = "department")
