@@ -1,7 +1,11 @@
 package com.sajidh.service;
 
+import com.sajidh.dto.StudentRequestDTO;
+import com.sajidh.exception.DepartmentNotFoundException;
 import com.sajidh.exception.StudentNotFoundException;
+import com.sajidh.model.Department;
 import com.sajidh.model.Student;
+import com.sajidh.repository.DepartmentRepository;
 import com.sajidh.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,11 +16,15 @@ import java.util.List;
 public class StudentService {
 
     private final StudentRepository repository;
+    private final DepartmentRepository departmentRepository;
 
     public StudentService(
-            StudentRepository repository
+            StudentRepository repository,
+            DepartmentRepository departmentRepository
     ) {
         this.repository = repository;
+        this.departmentRepository =
+                departmentRepository;
     }
 
     public List<Student> getAllStudents() {
@@ -38,8 +46,38 @@ public class StudentService {
     }
 
     public Student addStudent(
-            Student student
+            StudentRequestDTO request
+
     ) {
+
+        Department department =
+                departmentRepository
+                        .findById(
+                                request.getDepartmentId()
+                        )
+                        .orElseThrow(
+                                ()-> new DepartmentNotFoundException(
+                                        "Department not found"
+                                )
+                        );
+
+        Student student =
+                new Student();
+
+        student.setName(
+                request.getName()
+        );
+
+        student.setAge(
+                request.getAge()
+        );
+
+        student.setCourse(
+                request.getCourse()
+        );
+        student.setDepartment(
+                department
+        );
 
         return repository.save(student);
     }

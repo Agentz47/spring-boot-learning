@@ -1,5 +1,6 @@
 package com.sajidh.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -20,8 +21,13 @@ public class Department {
     @NotBlank(message = "Department name cannot be empty")
     private String name;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "department")
     private List<Student> students;
+
+    public Department() {
+
+    }
 
     public Department(
             int id,

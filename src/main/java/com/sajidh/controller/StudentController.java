@@ -1,5 +1,6 @@
 package com.sajidh.controller;
 
+import com.sajidh.dto.StudentRequestDTO;
 import com.sajidh.dto.StudentResponseDTO;
 import com.sajidh.model.Student;
 import com.sajidh.service.StudentService;
@@ -32,10 +33,10 @@ public class StudentController {
     @PostMapping("/students")
     public Student Student(
             @Valid
-            @RequestBody Student student
-    ) {
+            @RequestBody StudentRequestDTO request
+            ) {
 
-        return service.addStudent(student);
+        return service.addStudent(request);
     }
 
     @GetMapping("/students/{id}")

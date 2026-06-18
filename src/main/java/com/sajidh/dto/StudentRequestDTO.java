@@ -20,10 +20,17 @@ public class StudentRequestDTO {
     )
     private String course;
 
-    public StudentRequestDTO(int id, String name, int age, String course) {
+    private int departmentId;
+
+    public StudentRequestDTO() {
+
+    }
+
+    public StudentRequestDTO(int id, String name, int age, String course, int departmentId) {
         this.name = name;
         this.age = age;
         this.course = course;
+        this.departmentId = departmentId;
     }
 
     public String getName() {
@@ -38,6 +45,8 @@ public class StudentRequestDTO {
         return course;
     }
 
+    public int getDepartmentId() {return departmentId;}
+
     public void setName(String name) {
         this.name = name;
     }
@@ -48,5 +57,9 @@ public class StudentRequestDTO {
 
     public void setCourse(String course) {
         this.course = course;
+    }
+
+    public void setDepartmentId(int departmentId) {
+        this.departmentId = departmentId;
     }
 }
