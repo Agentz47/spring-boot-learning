@@ -1,7 +1,6 @@
 package com.sajidh.dto;
 
 
-
 public class StudentResponseDTO {
 
     private int id;
