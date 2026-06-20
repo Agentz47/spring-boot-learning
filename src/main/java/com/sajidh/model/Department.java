@@ -29,7 +29,7 @@ public class Department {
     @NotBlank(message = "Department name cannot be empty")
     private String name;
 
-    @JsonIgnore
+    @JsonIgnore //FOR AVOID CREATING LOOP
     @OneToMany(mappedBy = "department")
     private List<Student> students;
 
