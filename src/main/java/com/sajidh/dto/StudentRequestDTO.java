@@ -26,13 +26,6 @@ public class StudentRequestDTO {
 
     }
 
-    public StudentRequestDTO(int id, String name, int age, String course, int departmentId) {
-        this.name = name;
-        this.age = age;
-        this.course = course;
-        this.departmentId = departmentId;
-    }
-
     public String getName() {
         return name;
     }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,9 +26,30 @@ public class StudentController {
     }
 
     @GetMapping("/students")
-    public List<Student> getAllStudents() {
+    public List<StudentResponseDTO> getAllStudents() {
 
-        return service.getAllStudents();
+        List<Student> students =
+                service.getAllStudents();
+
+        List<StudentResponseDTO> dtos =
+                new ArrayList<>();
+
+        for (Student student : students) {
+
+            StudentResponseDTO dto =
+                    new StudentResponseDTO(
+                            student.getId(),
+                            student.getName(),
+                            student.getAge(),
+                            student.getCourse(),
+                            student.getDepartment().getName()
+                    );
+
+            dtos.add(dto);
+        }
+
+        return dtos;
+
     }
 
     @PostMapping("/students")
@@ -52,7 +74,8 @@ public class StudentController {
                         student.getId(),
                         student.getName(),
                         student.getAge(),
-                        student.getCourse()
+                        student.getCourse(),
+                        student.getDepartment().getName()
                 );
 
 
