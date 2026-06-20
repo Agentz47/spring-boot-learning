@@ -2,6 +2,13 @@ package com.sajidh.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
 public class StudentRequestDTO {
 
     @NotBlank(
@@ -22,37 +29,4 @@ public class StudentRequestDTO {
 
     private int departmentId;
 
-    public StudentRequestDTO() {
-
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public String getCourse() {
-        return course;
-    }
-
-    public int getDepartmentId() {return departmentId;}
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public void setCourse(String course) {
-        this.course = course;
-    }
-
-    public void setDepartmentId(int departmentId) {
-        this.departmentId = departmentId;
-    }
 }
