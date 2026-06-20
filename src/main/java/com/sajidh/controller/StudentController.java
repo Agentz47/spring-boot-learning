@@ -34,21 +34,17 @@ public class StudentController {
         List<StudentResponseDTO> dtos =
                 new ArrayList<>();
 
-        for (Student student : students) {
-
-            StudentResponseDTO dto =
-                    new StudentResponseDTO(
-                            student.getId(),
-                            student.getName(),
-                            student.getAge(),
-                            student.getCourse(),
-                            student.getDepartment().getName()
-                    );
-
-            dtos.add(dto);
-        }
-
-        return dtos;
+        return students.stream()
+                .map(student ->
+                        new StudentResponseDTO(
+                                student.getId(),
+                                student.getName(),
+                                student.getAge(),
+                                student.getCourse(),
+                                student.getDepartment().getName()
+                        )
+                )
+                .toList();
 
     }
 
