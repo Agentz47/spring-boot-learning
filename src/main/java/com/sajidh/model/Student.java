@@ -5,7 +5,15 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.GeneratedValue;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Student {
 
@@ -31,56 +39,4 @@ public class Student {
     @JoinColumn(name = "department_id")
     private Department department;
 
-    public Student() {
-    }
-
-    public Student(
-            int id,
-            String name,
-            int age,
-            String course
-    ) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.course = course;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getCourse() {
-        return course;
-    }
-
-    public void setCourse(String course) {
-        this.course = course;
-    }
-
-    public Department getDepartment() {return department;}
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
 }
