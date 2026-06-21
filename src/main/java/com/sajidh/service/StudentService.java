@@ -123,4 +123,13 @@ public class StudentService {
 
     }
 
+    public List<Student> getStudentsByCourse(
+            String course
+    ) {
+
+        return repository.findByCourse(
+                course
+        );
+    }
+
 }

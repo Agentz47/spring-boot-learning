@@ -99,4 +99,28 @@ public class StudentController {
                 student
         );
     }
+
+    @GetMapping("/students/course/{course}")
+    public List<StudentResponseDTO> getStudentsByCourse(
+            @PathVariable String course
+    ) {
+
+        List<Student> students =
+                service.getStudentsByCourse(
+                        course
+                );
+
+        return students.stream()
+                .map(student ->
+                        new StudentResponseDTO(
+                                student.getId(),
+                                student.getName(),
+                                student.getAge(),
+                                student.getCourse(),
+                                student.getDepartment().getName()
+                        )
+                )
+                .toList();
+
+    }
 }
