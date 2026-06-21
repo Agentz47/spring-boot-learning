@@ -123,4 +123,28 @@ public class StudentController {
                 .toList();
 
     }
+
+    @GetMapping("/students/age/{age}")
+    public List<StudentResponseDTO> getStudentsOlderThan(
+            @PathVariable int age
+    ) {
+
+        List<Student> students =
+                service.getStudentsOlderThan(
+                        age
+                );
+
+        return students.stream()
+                .map(student ->
+                        new StudentResponseDTO(
+                                student.getId(),
+                                student.getName(),
+                                student.getAge(),
+                                student.getCourse(),
+                                student.getDepartment().getName()
+                        )
+                )
+                .toList();
+
+    }
 }

@@ -12,6 +12,10 @@ public interface StudentRepository
             String course
     );
 
+    List<Student> findByAgeGreaterThan(
+            int age
+    );
+
 }
 
 

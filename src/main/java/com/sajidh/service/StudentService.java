@@ -132,4 +132,13 @@ public class StudentService {
         );
     }
 
+    public List<Student> getStudentsOlderThan(
+            int age
+    ) {
+
+        return repository.findByAgeGreaterThan(
+                age
+        );
+    }
+
 }
