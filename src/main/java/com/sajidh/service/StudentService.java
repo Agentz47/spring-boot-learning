@@ -141,4 +141,16 @@ public class StudentService {
         );
     }
 
+    public List<Student> getStudentsByCourseAndAge(
+            String course,
+            int age
+    ) {
+
+        return repository
+                .findByCourseAndAgeGreaterThan(
+                course,
+                age
+        );
+    }
+
 }

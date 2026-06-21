@@ -147,4 +147,30 @@ public class StudentController {
                 .toList();
 
     }
+
+    @GetMapping("/students/search/{course}/{age}")
+    public List<StudentResponseDTO>
+    getStudentsByCourseAndAge(
+            @PathVariable String course,
+            @PathVariable int age
+    ) {
+
+        List<Student> students =
+                service.getStudentsByCourseAndAge(
+                        course,
+                        age
+                );
+
+        return students.stream()
+                .map(student ->
+                        new StudentResponseDTO(
+                                student.getId(),
+                                student.getName(),
+                                student.getAge(),
+                                student.getCourse(),
+                                student.getDepartment().getName()
+                        )
+                )
+                .toList();
+    }
 }

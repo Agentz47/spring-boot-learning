@@ -16,6 +16,10 @@ public interface StudentRepository
             int age
     );
 
+    List<Student> findByCourseAndAgeGreaterThan(
+            String course,
+            int age
+    );
 }
 
 
