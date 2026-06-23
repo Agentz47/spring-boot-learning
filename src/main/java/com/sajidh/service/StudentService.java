@@ -1,12 +1,16 @@
 package com.sajidh.service;
 
 import com.sajidh.dto.StudentRequestDTO;
+import com.sajidh.dto.StudentResponseDTO;
 import com.sajidh.exception.DepartmentNotFoundException;
 import com.sajidh.exception.StudentNotFoundException;
 import com.sajidh.model.Department;
 import com.sajidh.model.Student;
 import com.sajidh.repository.DepartmentRepository;
 import com.sajidh.repository.StudentRepository;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -151,6 +155,28 @@ public class StudentService {
                 course,
                 age
         );
+    }
+
+    public Page<StudentResponseDTO> getStudents(
+            int page,
+            int size
+    ) {
+
+        Page<Student> students =
+                repository.findAll(
+                        PageRequest.of(page,size)
+                );
+
+        return students.map(student ->
+                new StudentResponseDTO(
+                        student.getId(),
+                        student.getName(),
+                        student.getAge(),
+                        student.getCourse(),
+                        student.getDepartment().getName()
+                )
+        );
+
     }
 
 }

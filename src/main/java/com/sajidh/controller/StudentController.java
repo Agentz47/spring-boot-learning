@@ -5,6 +5,7 @@ import com.sajidh.dto.StudentResponseDTO;
 import com.sajidh.model.Student;
 import com.sajidh.service.StudentService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -172,5 +173,17 @@ public class StudentController {
                         )
                 )
                 .toList();
+    }
+
+    @GetMapping("/students/page")
+    public Page<StudentResponseDTO> getStudents(
+            @RequestParam int page,
+            @RequestParam int size
+    ) {
+
+        return service.getStudents(
+                page,
+                size
+        );
     }
 }
