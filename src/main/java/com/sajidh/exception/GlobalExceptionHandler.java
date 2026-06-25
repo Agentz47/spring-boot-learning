@@ -1,6 +1,7 @@
 package com.sajidh.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -54,5 +55,26 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 List.of()
         );
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(
+            RuntimeException ex
+    ) {
+
+        return ResponseEntity.badRequest()
+                .body(ex.getMessage());
+    }
+
+    @ExceptionHandler(
+            UsernameAlreadyExistsException.class
+    )
+    public ResponseEntity<String>
+    handleUsernameAlreadyExists(
+            UsernameAlreadyExistsException ex
+    ) {
+
+        return ResponseEntity.badRequest()
+                .body(ex.getMessage());
     }
 }
