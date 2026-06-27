@@ -6,7 +6,9 @@ import com.sajidh.model.Student;
 import com.sajidh.service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -79,17 +81,19 @@ public class StudentController {
         return ResponseEntity.ok(dto);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/students/{id}")
-    public String deleteStudent(
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteStudent(
             @PathVariable int id
     ) {
 
         service.deleteStudent(id);
-
-        return "Student Deleted Successfully!";
     }
 
+    @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/students/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public Student updateStudent(
             @PathVariable int id,
             @RequestBody Student student

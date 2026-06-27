@@ -6,6 +6,7 @@ import com.sajidh.dto.RegisterRequestDTO;
 import com.sajidh.dto.RegisterResponseDTO;
 import com.sajidh.exception.UsernameAlreadyExistsException;
 import com.sajidh.model.AppUser;
+import com.sajidh.model.Role;
 import com.sajidh.repository.AppUserRepository;
 import com.sajidh.security.JwtService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -55,6 +56,10 @@ public class AppUserService {
                 passwordEncoder.encode(
                         request.getPassword()
                 )
+        );
+
+        user.setRole(
+                Role.USER
         );
 
         AppUser savedUser =

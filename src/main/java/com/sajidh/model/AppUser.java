@@ -23,4 +23,7 @@ public class AppUser {
     private String username;
 
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 }
