@@ -42,7 +42,7 @@ public class JwtAuthenticationFilter
 
         if (
                 authHeader == null
-                ||
+                        ||
                         !authHeader.startsWith(
                                 "Bearer "
                         )
@@ -63,38 +63,40 @@ public class JwtAuthenticationFilter
                 jwtService.extractUsername(
                         token
                 );
-
-        if (
-                jwtService.isTokenValid(
-                token
-                )
-        ){
+         {
 
             UserDetails userDetails =
                     userDetailsService
                             .loadUserByUsername(
                                     username
                             );
+            if (
+                    jwtService.isTokenValid(
+                            token,
+                            userDetails
+                    )
+            ) {
 
-            UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(
-                            userDetails,
-                            null,
-                            userDetails.getAuthorities()
-                    );
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(
+                                userDetails,
+                                null,
+                                userDetails.getAuthorities()
+                        );
 
-            SecurityContextHolder
-                    .getContext()
-                    .setAuthentication(
-                            authentication
-                    );
+                SecurityContextHolder
+                        .getContext()
+                        .setAuthentication(
+                                authentication
+                        );
 
+            }
+
+            filterChain.doFilter(
+                    request,
+                    response
+            );
         }
-
-        filterChain.doFilter(
-                request,
-                response
-        );
     }
 
 

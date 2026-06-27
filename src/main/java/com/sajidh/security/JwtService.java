@@ -1,27 +1,64 @@
 package com.sajidh.security;
 
+import com.sajidh.config.JwtProperties;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Claims;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import javax.crypto.SecretKey;
 import java.util.Date;
+import java.util.function.Function;
 
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY =
-            "mySuperSecretKeyForJwtGeneration123456789";
+    private final JwtProperties jwtProperties;
+
+    public JwtService(
+            JwtProperties jwtProperties
+    ) {
+        this.jwtProperties = jwtProperties;
+    }
+
+    private SecretKey getSigningKey() {
+
+        return Keys.hmacShaKeyFor(
+                jwtProperties.getSecret()
+                        .getBytes()
+        );
+    }
+
+    private Claims extractAllClaims(
+            String token
+    ) {
+
+        return Jwts.parser()
+                .verifyWith(
+                        getSigningKey()
+                )
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    }
+
+    private <T> T extractClaim(
+            String token,
+            Function<Claims, T> claimsResolver
+    ) {
+
+        Claims claims =
+                extractAllClaims(token);
+
+        return claimsResolver.apply(claims);
+    }
 
     public String generateToken(
             String username
     ) {
-
-        SecretKey key =
-                Keys.hmacShaKeyFor(
-                        SECRET_KEY.getBytes()
-                );
 
         return Jwts.builder()
                 .subject(username)
@@ -29,10 +66,12 @@ public class JwtService {
                 .expiration(
                         new Date(
                                 System.currentTimeMillis()
-                                + 86400000
+                                + jwtProperties.getExpiration()
                         )
                 )
-                .signWith(key)
+                .signWith(
+                        getSigningKey()
+                )
                 .compact();
     }
 
@@ -40,35 +79,43 @@ public class JwtService {
             String token
     ) {
 
-        SecretKey key =
-                Keys.hmacShaKeyFor(
-                        SECRET_KEY.getBytes()
-                );
-
-        Claims claims =
-                Jwts.parser()
-                        .verifyWith(key)
-                        .build()
-                        .parseSignedClaims(token)
-                        .getPayload();
-
-        return claims.getSubject();
+        return extractClaim(
+                token,
+                Claims::getSubject
+        );
     }
 
-    public boolean isTokenValid(
+    public Date extractExpiration(
             String token
     ) {
 
-        try {
+        return extractClaim(
+                token,
+                Claims::getExpiration
+        );
+    }
 
-            extractUsername(token);
+    private boolean isTokenExpired(
+            String token
+    ) {
 
-            return true;
+        return extractExpiration(token)
+                .before(new Date());
+    }
 
-        } catch (Exception e) {
+    public boolean isTokenValid(
+            String token,
+            UserDetails userDetails
+    ) {
 
-            return false;
-        }
+        String username =
+                extractUsername(token);
+
+        return username.equals(
+                userDetails.getUsername()
+        )
+                &&
+                !isTokenExpired(token);
 
     }
 }
