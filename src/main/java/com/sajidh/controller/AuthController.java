@@ -1,9 +1,6 @@
 package com.sajidh.controller;
 
-import com.sajidh.dto.LoginRequestDTO;
-import com.sajidh.dto.LoginResponseDTO;
-import com.sajidh.dto.RegisterRequestDTO;
-import com.sajidh.dto.RegisterResponseDTO;
+import com.sajidh.dto.*;
 import com.sajidh.service.AppUserService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,7 +33,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public LoginResponseDTO login(
+    public AuthResponse login(
             @Valid
             @RequestBody LoginRequestDTO request
     ) {
@@ -48,4 +45,16 @@ public class AuthController {
 
 
     }
+
+    @PostMapping("/refresh")
+    public RefreshTokenResponse refreshToken(
+            @RequestBody
+            RefreshTokenRequest request
+    ) {
+
+        return service.refreshToken(
+                request
+        );
+    }
+
 }

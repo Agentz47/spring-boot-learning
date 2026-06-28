@@ -70,4 +70,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest()
                 .body(ex.getMessage());
     }
+
+    @ExceptionHandler(
+            RefreshTokenException.class
+    )
+    public ResponseEntity<String>
+    handleRefreshToken(
+            RefreshTokenException ex
+    ) {
+        return ResponseEntity.badRequest()
+                .body(ex.getMessage());
+    }
 }
