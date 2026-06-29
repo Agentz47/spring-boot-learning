@@ -8,6 +8,8 @@
 
 ![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
+---
+
 # Student Management REST API
 
 A secure Student Management REST API built with Spring Boot.
@@ -15,6 +17,8 @@ A secure Student Management REST API built with Spring Boot.
 The application provides CRUD operations for students and departments while implementing JWT authentication, refresh tokens, role-based authorization, validation, global exception handling, Docker containerization, and Swagger documentation.
 
 The project demonstrates modern Spring Boot development practices suitable for learning and portfolio purposes.
+
+---
 
 ## Features
 
@@ -34,6 +38,7 @@ The project demonstrates modern Spring Boot development practices suitable for l
 - Docker Compose Support
 - Spring Profiles
 
+---
 
 ## Technologies
 
@@ -73,6 +78,7 @@ The project demonstrates modern Spring Boot development practices suitable for l
 
 - Maven
 
+---
 
 ## Project Structure
 
@@ -96,6 +102,7 @@ src/main/java
 
 └── SpringBootLearningApplication
 
+---
 
 ## Running Locally
 
@@ -123,6 +130,7 @@ Run the application
 ./mvnw spring-boot:run
 ```
 
+---
 
 ## Running with Docker
 
@@ -137,6 +145,7 @@ Stop containers
 ```bash
 docker compose down
 ```
+---
 
 ## API Documentation
 
@@ -149,6 +158,7 @@ OpenAPI JSON
 
 http://localhost:8080/v3/api-docs
 
+---
 
 ## Authentication Flow
 Register
@@ -177,6 +187,7 @@ Refresh Token
 
 New Access Token
 
+---
 
 ## Security
 
@@ -193,6 +204,7 @@ Access tokens are short-lived.
 
 Refresh tokens are stored in the database and rotated after every refresh request.
 
+---
 
 ## Testing
 
@@ -201,8 +213,9 @@ Run all tests
 ```bash
 ./mvnw test
 ```
+---
 
-## The project includes
+### The project includes
 
 - Unit Tests
 - Controller Tests
@@ -224,6 +237,9 @@ Run all tests
 - GitHub Actions CI/CD
 - Kubernetes Deployment
 ```
+
+---
+
 ## Architecture Diagram
 ```
               Client
@@ -248,6 +264,8 @@ Repository Layer
 MySQL
 ```
 
+---
+
 ## Screenshots
 ![Main Menu](screenshots/swagger-home.png)
 
@@ -262,6 +280,8 @@ MySQL
 ![Main Menu](screenshots/postman-login.png)
 
 ![Main Menu](screenshots/student-api.png)
+
+---
 
 ## Author
 
