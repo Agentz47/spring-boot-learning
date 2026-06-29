@@ -29,16 +29,26 @@ public class StudentController {
     }
 
     @GetMapping("/students")
-    public List<StudentResponseDTO> getAllStudents() {
+    public Page<StudentResponseDTO> getAllStudents(
+            @RequestParam(
+                    defaultValue = "0"
+            )
+            int page,
 
-        List<Student> students =
-                service.getAllStudents();
+            @RequestParam(
+                    defaultValue = "10"
+            )
+            int size
+    ) {
 
-        List<StudentResponseDTO> dtos =
-                new ArrayList<>();
+        Page<Student> students =
+                service.getAllStudents(
+                        page,
+                        size
+                );
 
-        return students.stream()
-                .map(student ->
+        return students.map(
+                student ->
                         new StudentResponseDTO(
                                 student.getId(),
                                 student.getName(),
@@ -46,9 +56,7 @@ public class StudentController {
                                 student.getCourse(),
                                 student.getDepartment().getName()
                         )
-                )
-                .toList();
-
+                );
     }
 
     @PostMapping("/students")

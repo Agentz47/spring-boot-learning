@@ -11,6 +11,7 @@ import com.sajidh.repository.StudentRepository;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -31,9 +32,20 @@ public class StudentService {
                 departmentRepository;
     }
 
-    public List<Student> getAllStudents() {
+    public Page<Student> getAllStudents(
+            int page,
+            int size
+    ) {
 
-        return repository.findAll();
+        Pageable pageable =
+                PageRequest.of(
+                        page,
+                        size
+                );
+
+        return repository.findAll(
+                pageable
+        );
     }
 
     public Student getStudentById(
