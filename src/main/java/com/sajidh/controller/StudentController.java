@@ -44,14 +44,18 @@ public class StudentController {
             String sortBy,
 
             @RequestParam(defaultValue = "asc")
-            String direction
+            String direction,
+
+            @RequestParam(required = false)
+            String name
     ) {
 
         return service.getAllStudents(
                 page,
                 size,
                 sortBy,
-                direction
+                direction,
+                name
         );
     }
 

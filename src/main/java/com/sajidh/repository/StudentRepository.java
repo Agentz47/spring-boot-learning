@@ -1,6 +1,8 @@
 package com.sajidh.repository;
 
 import com.sajidh.model.Student;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +23,11 @@ public interface StudentRepository
     List<Student> findByCourseAndAgeGreaterThan(
             String course,
             int age
+    );
+
+    Page<Student> findByNameContainingIgnoreCase(
+            String name,
+            Pageable pageable
     );
 }
 

@@ -49,7 +49,8 @@ public class StudentService {
             int page,
             int size,
             String sortBy,
-            String direction
+            String direction,
+            String name
     ) {
 
         Sort sort =
@@ -64,8 +65,24 @@ public class StudentService {
                         sort
                 );
 
-        return repository.findAll(pageable)
-                .map(this::mapToDTO);
+        Page<Student> students;
+
+        if (name != null && !name.isBlank()) {
+
+            students = repository.findByNameContainingIgnoreCase(
+                    name,
+                    pageable
+            );
+        } else {
+
+            students = repository.findAll(
+                    pageable
+            );
+        }
+
+        return students.map(
+                this::mapToDTO
+        );
     }
 
     public Student getStudentById(
