@@ -38,25 +38,21 @@ public class StudentController {
             @RequestParam(
                     defaultValue = "10"
             )
-            int size
+            int size,
+
+            @RequestParam(defaultValue = "id")
+            String sortBy,
+
+            @RequestParam(defaultValue = "asc")
+            String direction
     ) {
 
-        Page<Student> students =
-                service.getAllStudents(
-                        page,
-                        size
-                );
-
-        return students.map(
-                student ->
-                        new StudentResponseDTO(
-                                student.getId(),
-                                student.getName(),
-                                student.getAge(),
-                                student.getCourse(),
-                                student.getDepartment().getName()
-                        )
-                );
+        return service.getAllStudents(
+                page,
+                size,
+                sortBy,
+                direction
+        );
     }
 
     @PostMapping("/students")

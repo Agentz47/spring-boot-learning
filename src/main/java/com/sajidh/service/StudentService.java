@@ -12,8 +12,9 @@ import com.sajidh.repository.StudentRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -22,6 +23,18 @@ public class StudentService {
 
     private final StudentRepository repository;
     private final DepartmentRepository departmentRepository;
+
+    private StudentResponseDTO mapToDTO(
+            Student student
+    ) {
+        return new StudentResponseDTO(
+                student.getId(),
+                student.getName(),
+                student.getAge(),
+                student.getCourse(),
+                student.getDepartment().getName()
+        );
+    }
 
     public StudentService(
             StudentRepository repository,
@@ -32,20 +45,27 @@ public class StudentService {
                 departmentRepository;
     }
 
-    public Page<Student> getAllStudents(
+    public Page<StudentResponseDTO> getAllStudents(
             int page,
-            int size
+            int size,
+            String sortBy,
+            String direction
     ) {
+
+        Sort sort =
+                direction.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).ascending()
+                        : Sort.by(sortBy).ascending();
 
         Pageable pageable =
                 PageRequest.of(
                         page,
-                        size
+                        size,
+                        sort
                 );
 
-        return repository.findAll(
-                pageable
-        );
+        return repository.findAll(pageable)
+                .map(this::mapToDTO);
     }
 
     public Student getStudentById(
