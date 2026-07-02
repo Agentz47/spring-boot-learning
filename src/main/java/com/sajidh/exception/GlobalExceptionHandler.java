@@ -1,5 +1,6 @@
 package com.sajidh.exception;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -7,6 +8,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import jakarta.servlet.http.HttpServletRequest;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +24,8 @@ public class GlobalExceptionHandler {
             HttpStatus.BAD_REQUEST
     )
     public ErrorResponse handleValidationErrors(
-            MethodArgumentNotValidException ex
+            MethodArgumentNotValidException ex,
+            HttpServletRequest request
     ) {
 
         List<String> errors =
@@ -35,10 +40,13 @@ public class GlobalExceptionHandler {
                 );
 
         return new ErrorResponse(
-                "Validation Failed",
-                errors
-        ) {
-        };
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                "Validation failed",
+                errors,
+                request.getRequestURI()
+        );
     }
 
     @ExceptionHandler(
@@ -48,12 +56,17 @@ public class GlobalExceptionHandler {
             HttpStatus.NOT_FOUND
     )
     public ErrorResponse handleStudentNotFound(
-            StudentNotFoundException ex
+            StudentNotFoundException ex,
+            HttpServletRequest request
     ) {
 
         return new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
                 ex.getMessage(),
-                List.of()
+                List.of(),
+                request.getRequestURI()
         );
     }
 
@@ -62,23 +75,47 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(
             UsernameAlreadyExistsException.class
     )
-    public ResponseEntity<String>
+    public ResponseEntity<ErrorResponse>
     handleUsernameAlreadyExists(
-            UsernameAlreadyExistsException ex
+            UsernameAlreadyExistsException ex,
+            HttpServletRequest request
     ) {
 
-        return ResponseEntity.badRequest()
-                .body(ex.getMessage());
+        ErrorResponse response =
+                new ErrorResponse(
+                        LocalDateTime.now(),
+                        HttpStatus.CONFLICT.value(),
+                        HttpStatus.CONFLICT.getReasonPhrase(),
+                        ex.getMessage(),
+                        List.of(),
+                        request.getRequestURI()
+                );
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(response);
     }
 
     @ExceptionHandler(
             RefreshTokenException.class
     )
-    public ResponseEntity<String>
+    public ResponseEntity<ErrorResponse>
     handleRefreshToken(
-            RefreshTokenException ex
+            RefreshTokenException ex,
+            HttpServletRequest request
     ) {
-        return ResponseEntity.badRequest()
-                .body(ex.getMessage());
+        ErrorResponse response =
+                new ErrorResponse(
+                        LocalDateTime.now(),
+                        HttpStatus.UNAUTHORIZED.value(),
+                        HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+                        ex.getMessage(),
+                        List.of(),
+                        request.getRequestURI()
+                );
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(response);
     }
 }

@@ -1,26 +1,23 @@
 package com.sajidh.exception;
 
+import lombok.Value;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
+@Value
 public class ErrorResponse {
 
-    private String message;
+    LocalDateTime timestamp;
 
-    private List<String> errors;
+    int status;
 
-    public ErrorResponse(
-            String message,
-            List<String> errors
-    ) {
-        this.message = message;
-        this.errors = errors;
-    }
+    String error;
 
-    public String getMessage() {
-        return message;
-    }
+    String message;
 
-    public List<String> getErrors() {
-        return errors;
-    }
+    List<String> errors;
+
+    String path;
+
 }
