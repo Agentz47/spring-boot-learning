@@ -1,5 +1,6 @@
 package com.sajidh.controller;
 
+import com.sajidh.dto.ApiResponse;
 import com.sajidh.dto.StudentRequestDTO;
 import com.sajidh.dto.StudentResponseDTO;
 import com.sajidh.model.Student;
@@ -72,7 +73,7 @@ public class StudentController {
     }
 
     @PostMapping("/students")
-    public Student Student(
+    public Student addStudent(
             @Valid
             @RequestBody StudentRequestDTO request
             ) {
@@ -81,7 +82,7 @@ public class StudentController {
     }
 
     @GetMapping("/students/{id}")
-    public ResponseEntity<StudentResponseDTO> getStudentById(
+    public ResponseEntity<ApiResponse<StudentResponseDTO>> getStudentById(
             @PathVariable int id
     ) {
 
@@ -97,8 +98,15 @@ public class StudentController {
                         student.getDepartment().getName()
                 );
 
+        ApiResponse<StudentResponseDTO> response =
+                new ApiResponse<>(
+                        true,
+                        "Student retrieved successfully",
+                        dto
+                );
 
-        return ResponseEntity.ok(dto);
+
+        return ResponseEntity.ok(response);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -116,7 +124,7 @@ public class StudentController {
     @PreAuthorize("hasRole('ADMIN')")
     public Student updateStudent(
             @PathVariable int id,
-            @RequestBody Student student
+            @RequestBody StudentRequestDTO student
     ) {
 
         return service.updateStudent(

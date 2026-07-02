@@ -147,7 +147,7 @@ public class StudentService {
 
     public Student updateStudent(
             int id,
-            Student updateStudent
+            StudentRequestDTO updateStudent
     ) {
 
         Student existingStudent =
