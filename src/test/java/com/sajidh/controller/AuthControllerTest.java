@@ -18,6 +18,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.Matchers.hasItems;
 
 @WebMvcTest(AuthController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -98,12 +99,10 @@ class AuthControllerTest {
                         .value("Validation Failed"))
 
                 .andExpect(
-                        jsonPath("$.errors[0]")
-                                .value("Username cannot be empty")
-                )
-                .andExpect(
-                        jsonPath("$.errors[1]")
-                                .value("Password cannot be empty")
-                );
+                        jsonPath("$.errors",
+                                hasItems(
+                                        "Username cannot be empty",
+                                        "Password cannot be empty"
+                                )));
     }
 }
