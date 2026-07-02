@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -60,7 +59,7 @@ public class StudentService {
 
         Sort sort =
                 direction.equalsIgnoreCase("desc")
-                ? Sort.by(sortBy).ascending()
+                ? Sort.by(sortBy).descending()
                         : Sort.by(sortBy).ascending();
 
         Pageable pageable =
@@ -179,56 +178,5 @@ public class StudentService {
 
     }
 
-    public List<Student> getStudentsByCourse(
-            String course
-    ) {
-
-        return repository.findByCourse(
-                course
-        );
-    }
-
-    public List<Student> getStudentsOlderThan(
-            int age
-    ) {
-
-        return repository.findByAgeGreaterThan(
-                age
-        );
-    }
-
-    public List<Student> getStudentsByCourseAndAge(
-            String course,
-            int age
-    ) {
-
-        return repository
-                .findByCourseAndAgeGreaterThan(
-                course,
-                age
-        );
-    }
-
-    public Page<StudentResponseDTO> getStudents(
-            int page,
-            int size
-    ) {
-
-        Page<Student> students =
-                repository.findAll(
-                        PageRequest.of(page,size)
-                );
-
-        return students.map(student ->
-                new StudentResponseDTO(
-                        student.getId(),
-                        student.getName(),
-                        student.getAge(),
-                        student.getCourse(),
-                        student.getDepartment().getName()
-                )
-        );
-
-    }
 
 }

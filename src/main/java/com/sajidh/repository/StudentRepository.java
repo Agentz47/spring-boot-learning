@@ -14,18 +14,6 @@ public interface StudentRepository
     extends JpaRepository<Student, Integer>,
         JpaSpecificationExecutor<Student> {
 
-    List<Student> findByCourse(
-            String course
-    );
-
-    List<Student> findByAgeGreaterThan(
-            int age
-    );
-
-    List<Student> findByCourseAndAgeGreaterThan(
-            String course,
-            int age
-    );
 }
 
 
