@@ -47,7 +47,16 @@ public class StudentController {
             String direction,
 
             @RequestParam(required = false)
-            String name
+            String name,
+
+            @RequestParam(required = false)
+            String course,
+
+            @RequestParam(required = false)
+            Integer age,
+
+            @RequestParam(required = false)
+            String department
     ) {
 
         return service.getAllStudents(
@@ -55,7 +64,10 @@ public class StudentController {
                 size,
                 sortBy,
                 direction,
-                name
+                name,
+                course,
+                age,
+                department
         );
     }
 

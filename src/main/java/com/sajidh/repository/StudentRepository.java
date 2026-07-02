@@ -4,13 +4,15 @@ import com.sajidh.model.Student;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
 public interface StudentRepository
-    extends JpaRepository<Student, Integer> {
+    extends JpaRepository<Student, Integer>,
+        JpaSpecificationExecutor<Student> {
 
     List<Student> findByCourse(
             String course
@@ -23,11 +25,6 @@ public interface StudentRepository
     List<Student> findByCourseAndAgeGreaterThan(
             String course,
             int age
-    );
-
-    Page<Student> findByNameContainingIgnoreCase(
-            String name,
-            Pageable pageable
     );
 }
 

@@ -9,10 +9,12 @@ import com.sajidh.model.Student;
 import com.sajidh.repository.DepartmentRepository;
 import com.sajidh.repository.StudentRepository;
 
+import com.sajidh.specification.StudentSpecification;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Sort;
 
@@ -50,7 +52,10 @@ public class StudentService {
             int size,
             String sortBy,
             String direction,
-            String name
+            String name,
+            String course,
+            Integer age,
+            String department
     ) {
 
         Sort sort =
@@ -65,20 +70,18 @@ public class StudentService {
                         sort
                 );
 
-        Page<Student> students;
+        Specification<Student> specification =
+                Specification
+                        .where(StudentSpecification.hasName(name))
+                        .and(StudentSpecification.hasCourse(course))
+                        .and(StudentSpecification.hasAge(age))
+                        .and(StudentSpecification.hasDepartment(department));
 
-        if (name != null && !name.isBlank()) {
-
-            students = repository.findByNameContainingIgnoreCase(
-                    name,
-                    pageable
-            );
-        } else {
-
-            students = repository.findAll(
-                    pageable
-            );
-        }
+        Page<Student> students =
+                repository.findAll(
+                        specification,
+                        pageable
+                );
 
         return students.map(
                 this::mapToDTO
