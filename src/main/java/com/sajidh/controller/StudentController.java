@@ -30,7 +30,7 @@ public class StudentController {
     }
 
     @GetMapping("/students")
-    public Page<StudentResponseDTO> getAllStudents(
+    public ResponseEntity<ApiResponse<Page<StudentResponseDTO>>> getAllStudents(
             @RequestParam(
                     defaultValue = "0"
             )
@@ -60,25 +60,56 @@ public class StudentController {
             String department
     ) {
 
-        return service.getAllStudents(
-                page,
-                size,
-                sortBy,
-                direction,
-                name,
-                course,
-                age,
-                department
-        );
+        Page<StudentResponseDTO> students =
+                service.getAllStudents(
+                        page,
+                        size,
+                        sortBy,
+                        direction,
+                        name,
+                        course,
+                        age,
+                        department
+                );
+
+        ApiResponse<Page<StudentResponseDTO>> response =
+                new ApiResponse<>(
+                        true,
+                        "Students retrieved successfully",
+                        students
+                );
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/students")
-    public Student addStudent(
+    public ResponseEntity<ApiResponse<StudentResponseDTO>> addStudent(
             @Valid
             @RequestBody StudentRequestDTO request
             ) {
 
-        return service.addStudent(request);
+        Student student =
+                service.addStudent(request);
+
+        StudentResponseDTO dto =
+                new StudentResponseDTO(
+                        student.getId(),
+                        student.getName(),
+                        student.getAge(),
+                        student.getCourse(),
+                        student.getDepartment().getName()
+                );
+
+        ApiResponse<StudentResponseDTO> response =
+                new ApiResponse<>(
+                        true,
+                        "Student created successfully",
+                        dto
+                );
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(response);
     }
 
     @GetMapping("/students/{id}")
@@ -119,17 +150,33 @@ public class StudentController {
         service.deleteStudent(id);
     }
 
-    @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/students/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public Student updateStudent(
+    public ResponseEntity<ApiResponse<StudentResponseDTO>> updateStudent(
             @PathVariable int id,
-            @RequestBody StudentRequestDTO student
+            @RequestBody StudentRequestDTO request
     ) {
 
-        return service.updateStudent(
-                id,
-                student
-        );
+        Student student =
+                service.updateStudent(id, request);
+
+        StudentResponseDTO dto =
+                new StudentResponseDTO(
+                        student.getId(),
+                        student.getName(),
+                        student.getAge(),
+                        student.getCourse(),
+                        student.getDepartment().getName()
+                );
+
+        ApiResponse<StudentResponseDTO> response =
+                new ApiResponse<>(
+                        true,
+                        "Student updated successfully",
+                        dto
+                );
+
+        return ResponseEntity
+                .ok(response);
     }
 }
