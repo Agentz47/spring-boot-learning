@@ -99,11 +99,11 @@ class AuthControllerTest {
 
                 .andExpect(
                         jsonPath("$.errors[0]")
-                                .value("Password cannot be empty")
+                                .value("Username cannot be empty")
                 )
                 .andExpect(
                         jsonPath("$.errors[1]")
-                                .value("Username cannot be empty")
+                                .value("Password cannot be empty")
                 );
     }
 }
